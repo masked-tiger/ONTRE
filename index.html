@@ -1417,10 +1417,17 @@ function toggleTTS(){
   ttsUtterance.rate  = 0.85;   // 約135語/分
   ttsUtterance.pitch = 1.0;
 
-  // 英語ネイティブ音声があれば優先
+  // 音声選択：Google音声（ネットワーク）を最優先
+  // ※ localService=true の端末内蔵音声は rate を無視することが多いため使わない
   const voices = window.speechSynthesis.getVoices();
-  const enVoice = voices.find(v => v.lang.startsWith('en') && v.localService) ||
-                  voices.find(v => v.lang.startsWith('en'));
+  const enVoice =
+    voices.find(v => v.name === 'Google US English') ||
+    voices.find(v => v.name.includes('Google') && v.lang === 'en-US') ||
+    voices.find(v => v.name.includes('Google') && v.lang.startsWith('en')) ||
+    voices.find(v => !v.localService && v.lang === 'en-US') ||
+    voices.find(v => !v.localService && v.lang.startsWith('en')) ||
+    voices.find(v => v.lang === 'en-US') ||
+    voices.find(v => v.lang.startsWith('en'));
   if(enVoice) ttsUtterance.voice = enVoice;
 
   ttsUtterance.onstart = () => {
@@ -1433,6 +1440,8 @@ function toggleTTS(){
   ttsUtterance.onend   = onTTSEnd;
   ttsUtterance.onerror = onTTSEnd;
 
+  // Chrome の既知バグ回避：speak() 前に cancel() を挟むと rate が確実に反映される
+  window.speechSynthesis.cancel();
   window.speechSynthesis.speak(ttsUtterance);
 }
 
