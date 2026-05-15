@@ -1,0 +1,1946 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ONTRE — 英語音読トレーニング</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&family=Noto+Sans+JP:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --navy: #0B1F4A;
+  --blue: #1A5CFF;
+  --indigo: #4F46E5;
+  --purple: #7C3AED;
+  --mint: #00C896;
+  --mint-dark: #00A87E;
+  --bg: #EEF2FF;
+  --white: #FFFFFF;
+  --text: #1A1A2E;
+  --text2: #64748B;
+  --border: #DDE3F0;
+  --red: #EF4444;
+  --yellow: #F59E0B;
+  --amber: #D97706;
+  --green: #10B981;
+  --shadow: 0 2px 20px rgba(79,70,229,0.10);
+}
+
+body {
+  font-family: 'Outfit', 'Noto Sans JP', sans-serif;
+  background: linear-gradient(150deg, #EEF2FF 0%, #F0FFFE 55%, #F0FFF4 100%);
+  background-attachment: fixed;
+  color: var(--text);
+  min-height: 100vh;
+  font-size: 16px;
+}
+
+/* ===== HEADER ===== */
+.header {
+  background: linear-gradient(135deg, #0B1F4A 0%, #1A1060 60%, #0D2A5A 100%);
+  padding: 0 28px;
+  height: 72px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+
+.logo {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+}
+
+.logo-main {
+  font-size: 33px;
+  font-weight: 800;
+  color: white;
+  letter-spacing: -0.5px;
+  line-height: 1;
+}
+
+.logo-g { color: white; }
+.logo-dash { color: var(--mint); }
+.logo-boost { color: var(--mint); }
+
+.logo-tag {
+  font-size: 13px;
+  font-weight: 400;
+  color: rgba(255,255,255,0.55);
+  font-family: 'Noto Sans JP', sans-serif;
+  letter-spacing: 0.5px;
+}
+
+.header-right { display: flex; align-items: center; gap: 16px; }
+
+.header-student {
+  font-size: 13px;
+  color: rgba(255,255,255,0.7);
+  font-family: 'Noto Sans JP', sans-serif;
+  background: rgba(255,255,255,0.1);
+  padding: 4px 12px;
+  border-radius: 20px;
+}
+
+/* ===== LAYOUT ===== */
+.main {
+  max-width: 820px;
+  margin: 0 auto;
+  padding: 20px 16px 40px;
+}
+
+.hidden { display: none !important; }
+
+/* ===== CARDS ===== */
+.card {
+  background: linear-gradient(180deg, #FFFFFF 0%, #FAFCFF 100%);
+  border-radius: 16px;
+  padding: 20px 24px;
+  box-shadow: var(--shadow);
+  margin-bottom: 14px;
+  border: 1px solid rgba(99,102,241,0.08);
+}
+
+.section-label {
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--indigo);
+  text-transform: uppercase;
+  letter-spacing: 0.8px;
+  margin-bottom: 12px;
+  font-family: 'Noto Sans JP', sans-serif;
+  background: rgba(79,70,229,0.06);
+  display: inline-block;
+  padding: 2px 8px;
+  border-radius: 4px;
+}
+
+/* ===== FORM ===== */
+.label-row {
+  display: flex;
+  align-items: center;
+  margin-bottom: 8px;
+  flex-wrap: wrap;
+  gap: 4px;
+}
+
+.form-label {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text2);
+  font-family: 'Noto Sans JP', sans-serif;
+  white-space: nowrap;
+}
+
+.form-hint-inline {
+  font-size: 12px;
+  color: var(--text2);
+  font-family: 'Noto Sans JP', sans-serif;
+}
+
+input[type="text"] {
+  border: 2px solid var(--border);
+  border-radius: 10px;
+  padding: 10px 14px;
+  font-size: 22px;
+  font-weight: 700;
+  letter-spacing: 4px;
+  text-align: center;
+  font-family: 'Outfit', monospace;
+  outline: none;
+  width: 140px;
+  transition: border-color 0.2s;
+  color: var(--text);
+  background: white;
+}
+
+input[type="text"]:focus { border-color: var(--blue); }
+
+/* ===== UPLOAD AREA ===== */
+.upload-area {
+  border: 2.5px dashed var(--border);
+  border-radius: 14px;
+  padding: 26px 20px;
+  text-align: center;
+  cursor: pointer;
+  transition: all 0.2s;
+  background: linear-gradient(180deg, #F8FBFF 0%, #F3F7FF 100%);
+  user-select: none;
+}
+
+.upload-area:hover, .upload-area.dragover {
+  border-color: var(--blue);
+  background: rgba(26,92,255,0.03);
+}
+
+.upload-area.loaded {
+  border-color: var(--mint);
+  border-style: solid;
+  background: linear-gradient(160deg, #ECFDF5, #F0FFFE);
+}
+
+.upload-icon { font-size: 34px; margin-bottom: 7px; }
+
+.upload-title {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--text);
+  margin-bottom: 3px;
+}
+
+.upload-sub {
+  font-size: 12px;
+  color: var(--text2);
+  font-family: 'Noto Sans JP', sans-serif;
+}
+
+/* ===== NOTICE BOX ===== */
+.notice {
+  background: #EFF6FF;
+  border-left: 3px solid var(--blue);
+  border-radius: 0 8px 8px 0;
+  padding: 8px 12px;
+  font-size: 12px;
+  color: #1E40AF;
+  font-family: 'Noto Sans JP', sans-serif;
+  line-height: 1.6;
+  margin-bottom: 12px;
+}
+
+/* ===== BUTTONS ===== */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 12px 22px;
+  border-radius: 10px;
+  font-size: 15px;
+  font-weight: 600;
+  font-family: 'Outfit', 'Noto Sans JP', sans-serif;
+  cursor: pointer;
+  border: none;
+  transition: all 0.15s;
+}
+
+.btn:active { transform: scale(0.97); }
+.btn:disabled { opacity: 0.45; cursor: not-allowed; transform: none !important; }
+
+.btn-primary {
+  background: linear-gradient(135deg, var(--blue), var(--indigo));
+  color: white;
+  width: 100%;
+  padding: 15px;
+  font-size: 16px;
+}
+.btn-primary:hover:not(:disabled) { background: linear-gradient(135deg, #1448CC, #3730A3); }
+
+.btn-permit {
+  background: var(--amber);
+  color: white;
+  padding: 9px 18px;
+  font-size: 14px;
+  border-radius: 8px;
+}
+.btn-permit:hover:not(:disabled) { background: #B45309; }
+.btn-permit.done { background: var(--green); cursor: default; }
+.btn-permit.done:hover { background: var(--green); }
+
+.btn-record {
+  background: var(--green);
+  color: white;
+  padding: 9px 18px;
+  font-size: 14px;
+  border-radius: 8px;
+}
+.btn-record.recording {
+  background: var(--red);
+  animation: pulse-red 1.6s ease-in-out infinite;
+}
+.btn-record:hover:not(:disabled):not(.recording) { background: #0EA172; }
+
+@keyframes pulse-red {
+  0%,100% { box-shadow: 0 0 0 0 rgba(239,68,68,0.35); }
+  50% { box-shadow: 0 0 0 12px rgba(239,68,68,0); }
+}
+
+.btn-export {
+  background: var(--mint);
+  color: white;
+  width: 100%;
+  padding: 14px;
+  font-size: 15px;
+}
+.btn-export:hover:not(:disabled) { background: var(--mint-dark); }
+
+.btn-reset {
+  background: transparent;
+  color: var(--text2);
+  border: 1.5px solid var(--border);
+  padding: 8px 16px;
+  font-size: 13px;
+  border-radius: 8px;
+}
+.btn-reset:hover { background: var(--bg); }
+
+/* ===== READING SCREEN ===== */
+.reading-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 14px;
+  gap: 12px;
+}
+
+.reading-file {
+  font-size: 12px;
+  color: var(--text2);
+  font-family: 'Noto Sans JP', sans-serif;
+  margin-bottom: 4px;
+}
+
+.reading-attempt {
+  font-size: 22px;
+  font-weight: 800;
+  color: var(--navy);
+  letter-spacing: -0.3px;
+}
+.reading-attempt span { background: linear-gradient(90deg, var(--blue), var(--indigo)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+
+.timer-wrap { text-align: right; }
+
+.timer {
+  font-size: 36px;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+  color: var(--navy);
+  line-height: 1;
+  letter-spacing: -1px;
+}
+
+.timer-label {
+  font-size: 11px;
+  color: var(--text2);
+  font-family: 'Noto Sans JP', sans-serif;
+  text-align: right;
+}
+
+/* ===== TEXT DISPLAY ===== */
+.text-area {
+  background: #FAFBFF;
+  border: 1.5px solid var(--border);
+  border-radius: 12px;
+  padding: 16px 20px;
+  font-size: 17px;
+  line-height: 2;
+  color: var(--text);
+  height: 168px;
+  max-height: 168px;
+  overflow-y: auto;
+  font-family: 'Outfit', Georgia, serif;
+  letter-spacing: 0.1px;
+}
+
+/* ===== STATUS ===== */
+.status-bar {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 10px;
+}
+
+.status-dot {
+  width: 10px; height: 10px;
+  border-radius: 50%; flex-shrink: 0;
+}
+.status-dot.idle    { background: var(--border); }
+.status-dot.waiting { background: var(--amber); }
+.status-dot.recording {
+  background: var(--red);
+  animation: blink 1s ease-in-out infinite;
+}
+
+@keyframes blink {
+  0%,100% { opacity: 1; }
+  50% { opacity: 0.3; }
+}
+
+.status-text {
+  font-size: 13px;
+  color: var(--text2);
+  font-family: 'Noto Sans JP', sans-serif;
+}
+
+/* ===== MIC STEPS ===== */
+.mic-section {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-bottom: 10px;
+}
+
+.mic-step {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 14px;
+  border-radius: 10px;
+  background: linear-gradient(90deg, #F5F7FF, #FAFBFF);
+  border: 1px solid rgba(99,102,241,0.10);
+  transition: opacity 0.3s;
+}
+
+.mic-step-num {
+  width: 24px; height: 24px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--indigo), var(--blue));
+  color: white;
+  font-size: 12px;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  transition: background 0.3s;
+}
+.mic-step-num.done { background: linear-gradient(135deg, var(--green), var(--mint)); }
+
+.mic-step-text {
+  font-size: 13px;
+  font-family: 'Noto Sans JP', sans-serif;
+  color: var(--text2);
+  flex: 1;
+  line-height: 1.4;
+}
+.mic-step-text strong { color: var(--text); font-weight: 600; }
+
+/* ===== TRANSCRIPT ===== */
+.transcript-box {
+  background: linear-gradient(180deg, #F8FAFF 0%, #F2F6FF 100%);
+  border: 1.5px solid rgba(99,102,241,0.18);
+  border-radius: 10px;
+  padding: 12px 14px;
+  min-height: 72px;
+  font-size: 15px;
+  line-height: 1.75;
+  color: var(--text);
+  word-break: break-word;
+}
+
+.transcript-placeholder {
+  color: var(--text2);
+  font-family: 'Noto Sans JP', sans-serif;
+  font-size: 13px;
+}
+
+.interim-text { color: #94A3B8; }
+
+/* ===== SCORE ===== */
+.score-panel {
+  margin-top: 12px;
+  padding: 14px 18px;
+  background: linear-gradient(135deg, #EEF2FF, #F0FDF9);
+  border-radius: 12px;
+  border: 1px solid rgba(99,102,241,0.12);
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.score-circle {
+  width: 76px; height: 76px;
+  border-radius: 50%;
+  display: flex; flex-direction: column;
+  align-items: center; justify-content: center;
+  flex-shrink: 0;
+  border: 4px solid currentColor;
+}
+
+.score-num { font-size: 24px; font-weight: 800; line-height: 1; }
+.score-unit { font-size: 11px; font-weight: 600; opacity: 0.8; }
+
+.score-high { color: var(--green); }
+.score-mid  { color: var(--yellow); }
+.score-low  { color: var(--red); }
+
+.score-info-title {
+  font-size: 12px; font-weight: 600; color: var(--text2);
+  font-family: 'Noto Sans JP', sans-serif; margin-bottom: 3px;
+}
+
+.score-feedback {
+  font-size: 14px; font-weight: 600; color: var(--text);
+  font-family: 'Noto Sans JP', sans-serif; line-height: 1.5;
+}
+
+/* ===== STATS GRID ===== */
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+  margin-bottom: 14px;
+}
+
+.stat-card {
+  background: var(--white);
+  border-radius: 12px;
+  padding: 14px 12px;
+  box-shadow: var(--shadow);
+  text-align: center;
+  border-top: 3px solid transparent;
+}
+.stat-card:nth-child(1) { background: linear-gradient(180deg,#EFF6FF,#fff); border-top-color: var(--blue); }
+.stat-card:nth-child(2) { background: linear-gradient(180deg,#ECFDF5,#fff); border-top-color: var(--green); }
+.stat-card:nth-child(3) { background: linear-gradient(180deg,#FFF7ED,#fff); border-top-color: var(--amber); }
+
+.stat-val {
+  font-size: 24px; font-weight: 800; color: var(--navy);
+  line-height: 1; margin-bottom: 5px; font-variant-numeric: tabular-nums;
+}
+.stat-card:nth-child(1) .stat-val { color: var(--blue); }
+.stat-card:nth-child(2) .stat-val { color: var(--green); }
+.stat-card:nth-child(3) .stat-val { color: var(--amber); }
+
+.stat-lbl { font-size: 11px; color: var(--text2); font-family: 'Noto Sans JP', sans-serif; }
+
+/* ===== HISTORY TABLE ===== */
+.history-table { width: 100%; border-collapse: collapse; font-size: 14px; }
+
+.history-table th {
+  text-align: left; padding: 7px 10px; background: linear-gradient(90deg,#EEF2FF,#E8F5FF);
+  color: var(--indigo); font-size: 11px; font-weight: 700;
+  text-transform: uppercase; letter-spacing: 0.6px;
+}
+
+.history-table th:first-child { border-radius: 6px 0 0 6px; }
+.history-table th:last-child  { border-radius: 0 6px 6px 0; text-align: right; }
+.history-table td:last-child  { text-align: right; }
+.history-table td { padding: 9px 10px; border-top: 1px solid var(--border); vertical-align: middle; }
+
+.attempt-badge {
+  display: inline-flex; width: 26px; height: 26px;
+  border-radius: 50%; background: linear-gradient(135deg, var(--indigo), var(--blue)); color: white;
+  font-size: 12px; font-weight: 700; align-items: center; justify-content: center;
+}
+
+.score-badge {
+  display: inline-block; padding: 3px 10px;
+  border-radius: 20px; font-size: 13px; font-weight: 700;
+}
+.score-badge.high { background: #D1FAE5; color: #065F46; }
+.score-badge.mid  { background: #FEF3C7; color: #92400E; }
+.score-badge.low  { background: #FEE2E2; color: #991B1B; }
+
+/* ===== EXPORT ===== */
+.export-wrap {
+  background: linear-gradient(135deg, #F0FDF9, #F8FFFE); border-radius: 16px;
+  padding: 18px 22px; box-shadow: var(--shadow);
+  border: 1.5px solid rgba(0,200,150,0.18);
+}
+
+.export-info {
+  font-size: 12px; color: var(--text2); text-align: center;
+  margin-top: 8px; font-family: 'Noto Sans JP', sans-serif; line-height: 1.6;
+}
+
+/* ===== LOADING ===== */
+.loading-overlay {
+  position: fixed; inset: 0;
+  background: rgba(11,31,74,0.6);
+  display: flex; flex-direction: column;
+  align-items: center; justify-content: center;
+  z-index: 999; gap: 16px;
+}
+
+.spinner {
+  width: 44px; height: 44px;
+  border: 4px solid rgba(255,255,255,0.2);
+  border-top-color: var(--mint);
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin { to { transform: rotate(360deg); } }
+
+.loading-text { color: white; font-size: 15px; font-family: 'Noto Sans JP', sans-serif; }
+
+/* ===== TOAST ===== */
+.toast {
+  position: fixed; bottom: 24px; left: 50%;
+  transform: translateX(-50%) translateY(60px);
+  background: var(--navy); color: white;
+  padding: 10px 22px; border-radius: 24px;
+  font-size: 14px; font-family: 'Noto Sans JP', sans-serif;
+  z-index: 998; transition: transform 0.3s ease; white-space: nowrap;
+}
+.toast.show { transform: translateX(-50%) translateY(0); }
+
+
+/* ===== WORD HIGHLIGHT ===== */
+.word-wrong {
+  background: #FEE2E2;
+  color: #991B1B;
+  border-radius: 3px;
+  padding: 0 2px;
+  text-decoration: underline wavy #EF4444;
+  text-underline-offset: 3px;
+  font-weight: 600;
+}
+
+.word-ok { /* no highlight */ }
+
+/* ===== TTS BUTTON ===== */
+.btn-tts {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 14px;
+  border-radius: 8px;
+  font-size: 13px;
+  font-weight: 600;
+  font-family: 'Outfit', 'Noto Sans JP', sans-serif;
+  cursor: pointer;
+  border: 1.5px solid var(--border);
+  background: white;
+  color: var(--text2);
+  transition: all 0.15s;
+}
+.btn-tts:hover:not(:disabled) { background: #EFF6FF; border-color: var(--blue); color: var(--blue); }
+.btn-tts.playing { background: #EFF6FF; border-color: var(--blue); color: var(--blue); }
+.btn-tts:disabled { opacity: 0.4; cursor: not-allowed; }
+
+.text-card-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 12px;
+}
+.text-card-header .section-label { margin-bottom: 0; }
+
+
+/* ===== PROPER NOUN EXCLUSION UI ===== */
+.excl-wrap {
+  margin-top: 14px;
+  padding-top: 14px;
+  border-top: 1px solid var(--border);
+}
+
+.excl-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 8px;
+  gap: 8px;
+}
+
+.excl-label {
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--text2);
+  text-transform: uppercase;
+  letter-spacing: 0.7px;
+  font-family: 'Noto Sans JP', sans-serif;
+}
+
+.excl-hint {
+  font-size: 11px;
+  color: var(--text2);
+  font-family: 'Noto Sans JP', sans-serif;
+  line-height: 1.5;
+  margin-bottom: 8px;
+}
+
+.excl-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-bottom: 10px;
+  min-height: 28px;
+}
+
+.excl-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  background: #F1F5FF;
+  border: 1px solid #C7D6FF;
+  color: #1E40AF;
+  border-radius: 20px;
+  padding: 3px 10px 3px 11px;
+  font-size: 13px;
+  font-weight: 600;
+  font-family: 'Outfit', sans-serif;
+  cursor: default;
+  transition: background 0.15s;
+}
+
+.excl-tag .remove-btn {
+  cursor: pointer;
+  font-size: 14px;
+  line-height: 1;
+  color: #6B7280;
+  border: none;
+  background: none;
+  padding: 0 0 0 2px;
+  font-weight: 700;
+}
+.excl-tag .remove-btn:hover { color: var(--red); }
+
+.excl-tag.auto {
+  background: #F0FDF9;
+  border-color: #A7F3D0;
+  color: #065F46;
+}
+
+.excl-add-row {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+
+.excl-input {
+  flex: 1;
+  border: 1.5px solid var(--border);
+  border-radius: 8px;
+  padding: 7px 12px;
+  font-size: 14px;
+  font-family: 'Outfit', sans-serif;
+  outline: none;
+  transition: border-color 0.2s;
+  color: var(--text);
+  background: white;
+}
+.excl-input:focus { border-color: var(--blue); }
+.excl-input::placeholder { color: #CBD5E1; font-size: 13px; }
+
+.excl-add-btn {
+  background: var(--navy);
+  color: white;
+  border: none;
+  border-radius: 8px;
+  padding: 7px 14px;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  font-family: 'Outfit', sans-serif;
+  transition: background 0.15s;
+  white-space: nowrap;
+}
+.excl-add-btn:hover { background: #1A3A7A; }
+
+.excl-none {
+  font-size: 12px;
+  color: #CBD5E1;
+  font-family: 'Noto Sans JP', sans-serif;
+  padding: 2px 0;
+}
+
+/* 除外語は薄いグレーで表示（採点対象外） */
+.word-excluded {
+  color: #9CA3AF;
+  background: #F9FAFB;
+  border-radius: 3px;
+  padding: 0 2px;
+  font-style: italic;
+  text-decoration: underline dotted #D1D5DB;
+  text-underline-offset: 3px;
+}
+
+/* ===== SCROLLBAR ===== */
+.text-area::-webkit-scrollbar { width: 6px; }
+.text-area::-webkit-scrollbar-track { background: transparent; }
+.text-area::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
+
+/* ===== TRANSCRIPT LABEL ===== */
+.sub-label {
+  font-size: 11px; font-weight: 700; color: var(--text2);
+  font-family: 'Noto Sans JP', sans-serif;
+  text-transform: uppercase; letter-spacing: 0.6px;
+  margin-bottom: 6px; margin-top: 10px;
+}
+</style>
+</head>
+<body>
+
+<div class="loading-overlay hidden" id="loading-overlay">
+  <div class="spinner"></div>
+  <div class="loading-text" id="loading-text">ファイルを読み込んでいます...</div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<!-- Header -->
+<div class="header">
+  <div class="logo">
+    <div class="logo-main">
+      <span style="letter-spacing:-1px;">ONTRE</span><span style="font-size:14px; font-weight:500; color:rgba(255,255,255,0.5); letter-spacing:0; margin-left:10px; vertical-align:middle;">Ver. 1.0</span><span style="font-size:12px; font-style:italic; color:rgba(255,255,255,0.35); margin-left:12px; vertical-align:middle;">Created by Yossy</span>
+    </div>
+    <div class="logo-tag">英語音読トレーニング</div>
+  </div>
+  <div class="header-right">
+    <div class="header-student hidden" id="header-student"></div>
+  </div>
+</div>
+
+<div class="main">
+
+  <!-- ====================== SETUP ====================== -->
+  <div id="screen-setup">
+
+    <!-- 生徒番号 -->
+    <div class="card">
+      <div class="section-label">生徒情報</div>
+      <div class="label-row">
+        <label class="form-label" for="student-number">生徒番号（4ケタ）</label>
+        <span class="form-hint-inline">（例：1年1組1番 → 1101、1年2組15番 → 1215）</span>
+      </div>
+      <input
+        type="text"
+        id="student-number"
+        maxlength="4"
+        placeholder="1101"
+        inputmode="numeric"
+        pattern="[0-9]*"
+        autocomplete="off"
+        autocorrect="off"
+        autocapitalize="off"
+        spellcheck="false"
+      >
+    </div>
+
+    <!-- ファイル -->
+    <div class="card">
+      <div class="section-label">英文ファイル</div>
+      <div class="notice">
+        Google Classroom で配付されたPDFまたはWordファイル（.docx）をアップロードしてください。
+      </div>
+      <div class="upload-area" id="upload-area">
+        <div class="upload-icon" id="upload-icon">📄</div>
+        <div class="upload-title" id="upload-title">クリック or ドラッグ＆ドロップ</div>
+        <div class="upload-sub" id="upload-sub">PDF・Word（.docx）ファイルに対応</div>
+        <input type="file" id="file-input" accept=".pdf,.docx,.doc" style="display:none">
+      </div>
+    </div>
+
+    <button class="btn btn-primary" onclick="startReading()">
+      音読をはじめる →
+    </button>
+
+  </div><!-- /screen-setup -->
+
+  <!-- ====================== READING ====================== -->
+  <div id="screen-reading" class="hidden">
+
+    <div class="reading-header">
+      <div>
+        <div class="reading-file" id="reading-filename">-</div>
+        <div class="reading-attempt">音読 <span id="attempt-num">1</span> 回目</div>
+      </div>
+      <div style="display:flex; align-items:flex-start; gap:10px;">
+        <div class="timer-wrap">
+          <div class="timer" id="timer-display">0:00</div>
+          <div class="timer-label">経過時間</div>
+        </div>
+        <button class="btn btn-reset" onclick="confirmReset()">最初からやり直す</button>
+      </div>
+    </div>
+
+    <!-- 英文テキスト -->
+    <div class="card">
+      <div class="text-card-header">
+        <div class="section-label">英文テキスト — 見ながら音読しましょう</div>
+        <button class="btn-tts" id="tts-btn" onclick="toggleTTS()" disabled title="モデル音読">
+          <span id="tts-icon">🔊</span>
+          <span id="tts-label">モデル音読</span>
+        </button>
+      </div>
+      <div class="text-area" id="text-display"></div>
+
+      <!-- 固有名詞 除外リスト -->
+      <div class="excl-wrap">
+        <div class="excl-header">
+          <span class="excl-label">採点から除外する語（固有名詞・人名など）</span>
+        </div>
+        <div class="excl-hint">
+          🔍 文中の大文字始まりの語を自動検出しました。不要なものは × で削除、追加は下の欄から。　<span style="color:#065F46;font-weight:600;">緑タグ</span>＝自動検出　<span style="color:#1E40AF;font-weight:600;">青タグ</span>＝手動追加
+        </div>
+        <div class="excl-tags" id="excl-tags">
+          <span class="excl-none">検出中...</span>
+        </div>
+        <div class="excl-add-row">
+          <input class="excl-input" id="excl-input" type="text"
+            placeholder="追加したい語を入力（例: Tanaka）"
+            autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false">
+          <button class="excl-add-btn" onclick="addExclWord()">追加</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- 録音コントロール -->
+    <div class="card">
+      <div class="status-bar">
+        <div class="status-dot idle" id="status-dot"></div>
+        <div class="status-text" id="status-text">まずマイクの使用を許可してください</div>
+      </div>
+
+      <div class="mic-section">
+        <!-- Step 1 -->
+        <div class="mic-step">
+          <div class="mic-step-num" id="step1-num">1</div>
+          <div class="mic-step-text">
+            <strong>マイクを許可する</strong>　ブラウザのマイクアクセスを許可します
+          </div>
+          <button class="btn btn-permit" id="permit-btn" onclick="requestMicPermission()">
+            <span id="permit-icon">🎙</span>
+            <span id="permit-label">マイク使用許可</span>
+          </button>
+        </div>
+
+        <!-- Step 2 -->
+        <div class="mic-step" id="step2-row" style="opacity:0.4;">
+          <div class="mic-step-num" id="step2-num">2</div>
+          <div class="mic-step-text">
+            <strong>音読を録音する</strong>　英文を声に出して最後まで読んでください
+          </div>
+          <button class="btn btn-record" id="record-btn" onclick="toggleRecording()" disabled>
+            <span id="record-icon">🎤</span>
+            <span id="record-label">録音開始</span>
+          </button>
+        </div>
+      </div>
+
+      <div class="sub-label">認識されたテキスト<span style="font-size:11px; font-weight:400; color:#94A3B8; margin-left:10px; font-style:italic;">※このアプリは正しい発音でも正しく認識しない場合があります。</span></div>
+      <div class="transcript-box" id="transcript-box">
+        <span class="transcript-placeholder">録音を開始すると、ここに音声が表示されます</span>
+      </div>
+
+      <!-- デバッグパネル（開発用・通常は非表示） -->
+      <div id="debug-panel" class="hidden" style="margin-top:12px; background:#1e1e2e; border-radius:10px; padding:14px 16px; font-size:12px; font-family:monospace; color:#cdd6f4; line-height:1.7; white-space:pre-wrap; word-break:break-all; max-height:300px; overflow-y:auto;">
+        <div style="font-size:11px; color:#a6e3a1; font-weight:700; margin-bottom:8px; font-family:sans-serif;">🔍 DEBUG LOG</div>
+        <div id="debug-log"></div>
+      </div>
+
+      <div style="margin-top:8px; text-align:right;">
+        <label style="font-size:12px; color:var(--text2); cursor:pointer; font-family:'Noto Sans JP',sans-serif;">
+          <input type="checkbox" id="debug-toggle" onchange="toggleDebug(this.checked)" style="margin-right:4px;">
+          デバッグログを表示（採点の詳細）
+        </label>
+      </div>
+
+      <div class="score-panel hidden" id="score-panel">
+        <div class="score-circle" id="score-circle">
+          <div class="score-num" id="score-num">--</div>
+          <div class="score-unit">点</div>
+        </div>
+        <div>
+          <div class="score-info-title">今回のスコア</div>
+          <div class="score-feedback" id="score-feedback">---</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Stats -->
+    <div class="stats-grid">
+      <div class="stat-card">
+        <div class="stat-val" id="stat-count">0</div>
+        <div class="stat-lbl">音読回数</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-val" id="stat-avg">--</div>
+        <div class="stat-lbl">平均タイム</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-val" id="stat-best">--</div>
+        <div class="stat-lbl">最高スコア</div>
+      </div>
+    </div>
+
+    <!-- History -->
+    <div class="card hidden" id="history-card">
+      <div class="section-label">音読履歴</div>
+      <table class="history-table">
+        <thead>
+          <tr>
+            <th>回</th><th>時刻</th><th>タイム</th><th>スコア</th>
+          </tr>
+        </thead>
+        <tbody id="history-body"></tbody>
+      </table>
+    </div>
+
+    <!-- Export -->
+    <div class="export-wrap">
+      <div class="section-label" style="margin-bottom:10px;">提出用データのダウンロード</div>
+      <button class="btn btn-export" id="export-btn" onclick="exportCSV()" disabled>
+        ⬇&nbsp; ファイルをダウンロードして提出準備
+      </button>
+      <div class="export-info" id="export-filename-hint">1回以上音読すると、ダウンロードができます</div>
+    </div>
+
+  </div><!-- /screen-reading -->
+</div><!-- /main -->
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mammoth/1.6.0/mammoth.browser.min.js"></script>
+
+<script>
+const S = {
+  studentNumber:'', sourceFileName:'', extractedText:'',
+  readings:[], isRecording:false, micPermitted:false,
+  timerInterval:null, startTime:null, currentAttempt:0,
+  recognition:null, accumulatedFinal:'',
+  waitingForFinal:false, elapsedOnStop:0,
+  lastRecognized:'',   // 最後の認識結果（除外語変更後に再ハイライト用）
+  lastInterim:''       // 最後の interim 結果（abort時に採点へ取り込む）
+};
+
+// PDF.js worker
+(function(){
+  const lib = window['pdfjs-dist/build/pdf'];
+  if(lib) lib.GlobalWorkerOptions.workerSrc =
+    'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
+})();
+
+// ── UPLOAD ─────────────────────────────────────────────────
+const uploadArea = document.getElementById('upload-area');
+const fileInput  = document.getElementById('file-input');
+
+uploadArea.addEventListener('click', () => fileInput.click());
+uploadArea.addEventListener('dragover', e => { e.preventDefault(); uploadArea.classList.add('dragover'); });
+uploadArea.addEventListener('dragleave', () => uploadArea.classList.remove('dragover'));
+uploadArea.addEventListener('drop', e => {
+  e.preventDefault(); uploadArea.classList.remove('dragover');
+  if(e.dataTransfer.files[0]) handleFile(e.dataTransfer.files[0]);
+});
+fileInput.addEventListener('change', () => {
+  if(fileInput.files[0]) handleFile(fileInput.files[0]);
+});
+
+// 半角数字のみ入力（全角数字も自動で半角に変換）
+document.getElementById('student-number').addEventListener('input', function(){
+  // 全角数字→半角に変換してから非数字を除去
+  this.value = this.value
+    .replace(/[０-９]/g, c => String.fromCharCode(c.charCodeAt(0) - 0xFEE0))
+    .replace(/[^0-9]/g,'');
+});
+
+async function handleFile(file) {
+  const name = file.name;
+  const ext  = name.split('.').pop().toLowerCase();
+  if(!['pdf','docx','doc'].includes(ext)){
+    showToast('PDFまたはWordファイルを選択してください'); return;
+  }
+  S.sourceFileName = name.replace(/\.[^/.]+$/,'');
+  showLoading('ファイルを読み込んでいます...');
+  try {
+    let text = ext==='pdf' ? await extractFromPDF(file) : await extractFromDocx(file);
+    S.extractedText = text.trim();
+    if(!S.extractedText) throw new Error('テキストを抽出できませんでした');
+    uploadArea.classList.add('loaded');
+    document.getElementById('upload-icon').textContent  = '✅';
+    document.getElementById('upload-title').textContent = name;
+    const wc = S.extractedText.split(/\s+/).filter(Boolean).length;
+    document.getElementById('upload-sub').textContent   = `${wc} 語を読み込みました`;
+    hideLoading(); showToast('ファイルを読み込みました！');
+  } catch(err){
+    hideLoading(); showToast('読み込みエラー: '+err.message); console.error(err);
+  }
+}
+
+async function extractFromPDF(file) {
+  const lib = window['pdfjs-dist/build/pdf'];
+  lib.GlobalWorkerOptions.workerSrc =
+    'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
+  const pdf = await lib.getDocument({data: await file.arrayBuffer()}).promise;
+  let text = '';
+  for(let i=1;i<=pdf.numPages;i++){
+    const page    = await pdf.getPage(i);
+    const content = await page.getTextContent();
+    text += content.items.map(item=>item.str).join(' ') + '\n';
+  }
+  return text;
+}
+
+async function extractFromDocx(file) {
+  const result = await mammoth.extractRawText({arrayBuffer: await file.arrayBuffer()});
+  return result.value;
+}
+
+// ── SETUP → READING ────────────────────────────────────────
+function startReading() {
+  const numInput = document.getElementById('student-number');
+  const num = numInput.value.trim();
+  if(!num || !/^\d{4}$/.test(num)){
+    showToast('4ケタの生徒番号を数字で入力してください');
+    numInput.focus(); return;
+  }
+  if(!S.extractedText){ showToast('英文ファイルを読み込んでください'); return; }
+
+  S.studentNumber = num;
+  const hs = document.getElementById('header-student');
+  hs.textContent = `生徒番号: ${num}`;
+  hs.classList.remove('hidden');
+
+  document.getElementById('reading-filename').textContent = S.sourceFileName;
+  initTextDisplay(S.extractedText); // 単語をspanで包んで表示
+  initExclusion(S.extractedText);   // 固有名詞を自動検出して除外リスト初期化
+  document.getElementById('tts-btn').disabled = false;
+  updateExportHint();
+
+  // 画面最上部へ
+  window.scrollTo({top:0, behavior:'instant'});
+
+  document.getElementById('screen-setup').classList.add('hidden');
+  document.getElementById('screen-reading').classList.remove('hidden');
+
+  initRecognition();
+  updateAttemptUI();
+}
+
+// ── SPEECH RECOGNITION INIT ────────────────────────────────
+function initRecognition() {
+  const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
+  if(!SR){ alert('Google Chrome で開いてください（音声認識に必要です）'); return; }
+  S.recognition = new SR();
+  S.recognition.lang='en-US'; S.recognition.continuous=true;
+  S.recognition.interimResults=true; S.recognition.maxAlternatives=1;
+
+  S.recognition.onstart = () => {
+    // マイク許可フェーズ完了
+    if(!S.micPermitted){
+      S.micPermitted = true;
+      // 許可確認用の一時起動なら止める（録音中でなければ）
+      if(!S.isRecording){
+        try{ S.recognition.stop(); }catch(e){}
+        onMicPermitGranted();
+      }
+    }
+  };
+
+  S.recognition.onresult = (event) => {
+    // isRecording中 or waitingForFinal中（停止後の残り認識処理中）も結果を受け取る
+    if(!S.isRecording && !S.waitingForFinal) return;
+    let interim='';
+    for(let i=event.resultIndex;i<event.results.length;i++){
+      if(event.results[i].isFinal) S.accumulatedFinal += event.results[i][0].transcript+' ';
+      else interim += event.results[i][0].transcript;
+    }
+    S.lastInterim = interim;  // abort()時に採点へ取り込むため常時保存
+    renderTranscript(S.accumulatedFinal, interim);
+  };
+
+  S.recognition.onend = () => {
+    if(S.isRecording){
+      // 録音中に意図せず切れた → 再起動
+      try{ S.recognition.start(); }catch(e){}
+    }
+    // ※ stopRecording() は abort() を使うため waitingForFinal は常に false
+    //    abort() 後は onend が発火しないが、発火しても二重採点にはならない
+  };
+
+  S.recognition.onerror = (e) => {
+    if(e.error === 'not-allowed'){
+      // 許可が拒否された
+      if(!S.micPermitted){
+        const btn = document.getElementById('permit-btn');
+        btn.disabled = false;
+        document.getElementById('permit-label').textContent = 'マイク使用許可';
+        document.getElementById('status-dot').className     = 'status-dot idle';
+        document.getElementById('status-text').textContent  = 'マイクが拒否されました。Chromeのアドレスバー左のアイコンから許可してください';
+        showToast('マイクへのアクセスが拒否されました');
+      }
+    } else if(!['no-speech','aborted'].includes(e.error)){
+      console.warn('SR error:', e.error);
+    }
+  };
+}
+
+// Step 1 許可完了時の処理
+function onMicPermitGranted(){
+  const btn = document.getElementById('permit-btn');
+  document.getElementById('permit-icon').textContent  = '✅';
+  document.getElementById('permit-label').textContent = '許可済み';
+  btn.classList.add('done');
+  document.getElementById('step1-num').classList.add('done');
+  document.getElementById('step1-num').textContent = '✓';
+  document.getElementById('step2-row').style.opacity = '1';
+  document.getElementById('record-btn').disabled = false;
+  document.getElementById('status-dot').className   = 'status-dot idle';
+  document.getElementById('status-text').textContent = 'マイク準備完了 — 録音開始ボタンを押してください';
+  showToast('マイクの使用が許可されました');
+}
+
+// ── MIC PERMISSION (Step 1) ────────────────────────────────
+// getUserMedia は使わず SpeechRecognition 自体で許可を取得する
+function requestMicPermission() {
+  // abort() 後の古いインスタンスは再起動できないことがあるため、
+  // 許可ボタンを押すたびに新しいインスタンスを生成して確実に start() できるようにする
+  initRecognition();
+  if(!S.recognition){ showToast('音声認識を初期化できませんでした'); return; }
+  const btn = document.getElementById('permit-btn');
+  btn.disabled = true;
+  document.getElementById('permit-label').textContent = '確認中...';
+  document.getElementById('status-dot').className     = 'status-dot waiting';
+  document.getElementById('status-text').textContent  = 'ブラウザのマイク許可ダイアログを確認してください';
+  // SpeechRecognition を一時起動してマイク許可ダイアログを表示させる
+  // onstart が発火すれば許可済み、onerror(not-allowed) なら拒否
+  try{ S.recognition.start(); }catch(e){ console.warn(e); }
+}
+
+// ── RECORDING TOGGLE (Step 2) ──────────────────────────────
+function toggleRecording() {
+  if(!S.micPermitted){ showToast('先にマイクの使用を許可してください'); return; }
+  S.isRecording ? stopRecording() : startRecordingSession();
+}
+
+function startRecordingSession() {
+  if(!S.recognition){ showToast('音声認識を初期化できませんでした'); return; }
+  S.isRecording=true; S.startTime=Date.now();
+  S.accumulatedFinal=''; S.currentAttempt++;
+  renderTranscript('','🎤 聞き取り中...');
+  document.getElementById('score-panel').classList.add('hidden');
+  updateAttemptUI();
+  const btn = document.getElementById('record-btn');
+  btn.classList.add('recording');
+  document.getElementById('record-icon').textContent  = '⏹';
+  document.getElementById('record-label').textContent = '録音停止';
+  document.getElementById('status-dot').className   = 'status-dot recording';
+  document.getElementById('status-text').textContent = '録音中... 英文を声に出して読んでください';
+  document.getElementById('timer-display').textContent = '0:00';
+  S.timerInterval = setInterval(tickTimer,100);
+  // 録音開始時点でタイマースタート。認識はすでに許可済み。
+  try{ S.recognition.start(); }catch(e){}
+}
+
+function stopRecording() {
+  // タイマーを止め、経過時間を確定する
+  S.isRecording    = false;
+  S.waitingForFinal = false;   // abort() はバッファを捨てるため waitingForFinal は不要
+  S.elapsedOnStop  = Math.round((Date.now()-S.startTime)/1000);
+  clearInterval(S.timerInterval);
+
+  // ボタンを「処理中」表示にして操作を無効化
+  const btn = document.getElementById('record-btn');
+  btn.disabled = true;
+  btn.classList.remove('recording');
+  document.getElementById('record-icon').textContent  = '⏳';
+  document.getElementById('record-label').textContent = '音読採点中...';
+
+  document.getElementById('status-dot').className   = 'status-dot waiting';
+  document.getElementById('status-text').textContent = '音声認識の処理が終わるまでお待ちください...';
+
+  // abort() でマイク入力を即座に終了し、onend を待たずに直接採点へ
+  // ただし abort() は interim 結果を破棄するため、先に accumulatedFinal へ取り込む
+  if(S.lastInterim && S.lastInterim.trim()){
+    S.accumulatedFinal += S.lastInterim + ' ';
+    S.lastInterim = '';
+  }
+  try{ S.recognition.abort(); }catch(e){}
+  proceedWithScoring(S.elapsedOnStop);
+}
+
+// onend から呼ばれる採点処理
+function proceedWithScoring(elapsed){
+  S.lastRecognized = S.accumulatedFinal; // 除外語変更後の再ハイライト用に保存
+  const score = calculateScore(S.extractedText, S.accumulatedFinal);
+  S.readings.push({attempt:S.currentAttempt, score:score, duration:elapsed, timestamp:new Date().toISOString()});
+  showScore(score); updateStats(); updateHistory();
+  // 採点後は interim の灰色を消し、全テキストを黒色で表示
+  renderTranscript(S.accumulatedFinal, '');
+  highlightMistakes(S.extractedText, S.accumulatedFinal);
+  document.getElementById('export-btn').disabled = false;
+  document.getElementById('status-text').textContent = '録音完了 — もう一度挑戦する場合は「マイク使用許可」から始めてください';
+  // 次の録音に備えてStep1/2を初期状態に戻す
+  S.micPermitted = false;
+  const permitBtn = document.getElementById('permit-btn');
+  permitBtn.disabled = false;
+  permitBtn.classList.remove('done');
+  document.getElementById('permit-icon').textContent  = '🎙';
+  document.getElementById('permit-label').textContent = 'マイク使用許可';
+  document.getElementById('step1-num').classList.remove('done');
+  document.getElementById('step1-num').textContent = '1';
+  document.getElementById('step2-row').style.opacity = '0.4';
+  const recBtn = document.getElementById('record-btn');
+  recBtn.disabled = true;
+  recBtn.classList.remove('recording');
+  document.getElementById('record-icon').textContent  = '🎤';
+  document.getElementById('record-label').textContent = '録音開始';
+  document.getElementById('status-dot').className = 'status-dot idle';
+}
+
+function tickTimer(){
+  const elapsed = Math.floor((Date.now()-S.startTime)/1000);
+  const m=Math.floor(elapsed/60), s=elapsed%60;
+  document.getElementById('timer-display').textContent = `${m}:${String(s).padStart(2,'0')}`;
+}
+
+function renderTranscript(final, interim){
+  const box = document.getElementById('transcript-box');
+  box.innerHTML='';
+  if(final) box.appendChild(document.createTextNode(final));
+  if(interim){ const sp=document.createElement('span'); sp.className='interim-text'; sp.textContent=interim; box.appendChild(sp); }
+  if(!final&&!interim) box.innerHTML='<span class="transcript-placeholder">録音を開始すると、ここに音声が表示されます</span>';
+}
+
+// ── TEXT DISPLAY & WORD HIGHLIGHT ──────────────────────────
+// テキストを単語単位のspanで初期表示（ハイライト用の準備）
+function initTextDisplay(text) {
+  const el = document.getElementById('text-display');
+  // 単語とそれ以外（スペース・句読点）を交互にspanに分割して表示
+  // 例: "Hello, world!" → <span data-wi="0">Hello</span><span class="sep">, </span><span data-wi="1">world</span><span class="sep">!</span>
+  const tokens = tokenizeText(text);
+  el.innerHTML = tokens.map(tok => {
+    if(tok.isWord){
+      return `<span class="word-token" data-wi="${tok.wi}">${escHtml(tok.raw)}</span>`;
+    } else {
+      return `<span class="sep">${escHtml(tok.raw)}</span>`;
+    }
+  }).join('');
+}
+
+// テキストを「単語トークン」と「区切りトークン」に分割
+function tokenizeText(text) {
+  // 通貨記号＋数字は1トークンとして扱う（$5.67, ¥500, €1.50, £3 など）
+  const regex = /([£$¥€]\d[\d.]*|[a-zA-Z0-9'’‘]+)|([^a-zA-Z0-9'’‘£$¥€]+)/g;
+  const tokens = [];
+  let wi = 0, m;
+  while((m = regex.exec(text)) !== null){
+    if(m[1] !== undefined){
+      tokens.push({ raw: m[1], isWord: true, wi: wi++ });
+    } else {
+      tokens.push({ raw: m[2], isWord: false });
+    }
+  }
+  return tokens;
+}
+
+function escHtml(str){
+  return str.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+}
+
+// 採点後: 間違い単語をハイライト
+function highlightMistakes(original, recognized){
+  if(!recognized || !recognized.trim()) return;
+  const exclSet = getExclSet();
+
+  // rawトークンを1語ずつ正規化（tokenizeText と同じ単位）
+  const normSingle = raw => expandSpeechConversions(raw.toLowerCase())
+    .replace(/[\u2018\u2019\u0027`]/g,'')
+    .replace(/[^\w\s]/g,' ')
+    .replace(/\s+/g,' ')
+    .trim().split(' ').filter(w=>w.length>0);
+
+  const normWords = t => expandSpeechConversions(t)
+    .replace(/[\u2018\u2019\u0027`]/g,'')
+    .replace(/[^\w\s]/g,' ')
+    .replace(/\s+/g,' ')
+    .trim().split(' ').filter(w=>w.length>0);
+
+  // tokenizeText と同じ単位で origAll を構築し、
+  // 各 origAll[k] がどの span(wi) に属するかを記録する
+  const rawTokens = tokenizeText(original).filter(t => t.isWord);
+  const origAll = [];
+  const origIdxToWi = [];          // origAll[k] → wi
+  rawTokens.forEach(tok => {
+    const expanded = normSingle(tok.raw);
+    expanded.forEach(w => {
+      origAll.push(w);
+      origIdxToWi.push(tok.wi);
+    });
+  });
+
+  const recogAll = normWords(recognized);
+  if(!origAll.length || !recogAll.length) return;
+
+  const { dp } = wildcardDP(origAll, recogAll, exclSet);
+  const m=origAll.length, n=recogAll.length;
+
+  // トレースバックして誤りインデックスを収集
+  const wrongOrigIdx = new Set();
+  let i=m, j=n;
+  while(i>0||j>0){
+    const isExcl = i>0 && exclSet.has(origAll[i-1]);
+    if(i>0 && j>0 && (origAll[i-1]===recogAll[j-1] || isExcl)){
+      i--;j--;
+    } else if(i>0 && isExcl && dp[i][j]===dp[i-1][j]){
+      i--;
+    } else if(i>0 && j>0 && dp[i][j]===dp[i-1][j-1]+1){
+      wrongOrigIdx.add(i-1); i--;j--;
+    } else if(i>0 && dp[i][j]===dp[i-1][j]+(isExcl?0:1)){
+      if(!isExcl) wrongOrigIdx.add(i-1);
+      i--;
+    } else { j--; }
+  }
+
+  // origAll インデックス → wi への変換（1トークンが複数語に展開された場合も対応）
+  const wrongWiSet = new Set();
+  const exclWiSet  = new Set();
+  origAll.forEach((word, k) => {
+    const wi = origIdxToWi[k];
+    if(exclSet.has(word)){
+      exclWiSet.add(wi);
+    } else if(wrongOrigIdx.has(k)){
+      wrongWiSet.add(wi);
+    }
+  });
+
+  // span にクラスを適用
+  const el = document.getElementById('text-display');
+  el.querySelectorAll('.word-token').forEach(span => {
+    const wi = parseInt(span.dataset.wi);
+    span.classList.remove('word-wrong','word-excluded');
+    if(exclWiSet.has(wi)){
+      span.classList.add('word-excluded');
+    } else if(wrongWiSet.has(wi)){
+      span.classList.add('word-wrong');
+    }
+  });
+}
+
+// ── TTS (モデル音読) ───────────────────────────────────────
+let ttsUtterance = null;
+
+function toggleTTS(){
+  if(!window.speechSynthesis){ showToast('このブラウザはTTSに対応していません'); return; }
+  if(window.speechSynthesis.speaking){
+    window.speechSynthesis.cancel();
+    onTTSEnd();
+    return;
+  }
+  ttsUtterance = new SpeechSynthesisUtterance(S.extractedText);
+  ttsUtterance.lang  = 'en-US';
+  ttsUtterance.rate  = 0.60;   // 約95語/分（高校生音読練習用）
+  ttsUtterance.pitch = 1.0;
+
+  // 英語ネイティブ音声があれば優先
+  const voices = window.speechSynthesis.getVoices();
+  const enVoice = voices.find(v => v.lang.startsWith('en') && v.localService) ||
+                  voices.find(v => v.lang.startsWith('en'));
+  if(enVoice) ttsUtterance.voice = enVoice;
+
+  ttsUtterance.onstart = () => {
+    const btn = document.getElementById('tts-btn');
+    btn.classList.add('playing');
+    document.getElementById('tts-icon').textContent  = '⏹';
+    document.getElementById('tts-label').textContent = '停止';
+  };
+
+  ttsUtterance.onend   = onTTSEnd;
+  ttsUtterance.onerror = onTTSEnd;
+
+  window.speechSynthesis.speak(ttsUtterance);
+}
+
+function onTTSEnd(){
+  const btn = document.getElementById('tts-btn');
+  btn.classList.remove('playing');
+  document.getElementById('tts-icon').textContent  = '🔊';
+  document.getElementById('tts-label').textContent = 'モデル音読';
+}
+
+// 音声一覧が非同期でロードされる場合の対応
+if(window.speechSynthesis){
+  window.speechSynthesis.onvoiceschanged = () => {};
+}
+
+
+// ── PROPER NOUN EXCLUSION ───────────────────────────────────
+// 除外語セット: { word(小文字): 'auto'|'manual' }
+const EXCL = {};
+
+// 正規化済み除外セット（採点・ハイライト用）
+// ── WILDCARD DP ──────────────────────────────────────────────
+// 除外語はワイルドカード（何にでも0コストでマッチ or 0コストでスキップ）
+// origAll: 除外語込みの元単語配列
+// recogAll: 正規化済み認識結果単語配列
+// exclSet: 除外語セット（小文字）
+// 戻り値: { dp(フルテーブル), origAll, recogAll, nonExclCount }
+function wildcardDP(origAll, recogAll, exclSet){
+  const m = origAll.length, n = recogAll.length;
+
+  // dp[i][0]: origAll[0..i-1] を recog なしに合わせるコスト
+  //   除外語は0コストでスキップ、非除外語は1コスト(削除)
+  const dp = Array.from({length:m+1}, () => new Array(n+1).fill(0));
+  dp[0] = Array.from({length:n+1}, (_,j)=>j);
+  for(let i=1;i<=m;i++){
+    dp[i][0] = dp[i-1][0] + (exclSet.has(origAll[i-1]) ? 0 : 1);
+  }
+
+  for(let i=1;i<=m;i++){
+    const isExcl = exclSet.has(origAll[i-1]);
+    for(let j=1;j<=n;j++){
+      if(isExcl){
+        // 除外語: recog[j-1]を吸収して前進(0コスト) or origだけスキップ(0コスト)
+        dp[i][j] = Math.min(dp[i-1][j-1], dp[i-1][j]);
+      } else if(origAll[i-1] === recogAll[j-1]){
+        dp[i][j] = dp[i-1][j-1]; // 一致
+      } else {
+        dp[i][j] = 1 + Math.min(dp[i-1][j-1], dp[i-1][j], dp[i][j-1]);
+      }
+    }
+  }
+
+  const nonExclCount = origAll.filter(w=>!exclSet.has(w)).length;
+  return { dp, nonExclCount };
+}
+
+function getExclSet() {
+  const normWord = w => expandSpeechConversions(w)
+    .replace(/[''`\u2019\u2018]/g,'')
+    .replace(/[^\w\s]/g,'')
+    .trim()
+    .toLowerCase();
+  const s = new Set();
+  Object.keys(EXCL).forEach(w => { const n=normWord(w); if(n) s.add(n); });
+  return s;
+}
+
+// タグUI再描画
+function renderExclTags() {
+  const container = document.getElementById('excl-tags');
+  const words = Object.keys(EXCL);
+  if (!words.length) {
+    container.innerHTML = '<span class="excl-none">除外語なし</span>';
+    return;
+  }
+  container.innerHTML = words.map(w => {
+    const type = EXCL[w];
+    return `<span class="excl-tag ${type==='auto'?'auto':''}">
+      ${escHtml(w)}
+      <button class="remove-btn" onclick="removeExclWord('${escHtml(w)}')" title="除外を解除">×</button>
+    </span>`;
+  }).join('');
+}
+
+function addExclWord(word) {
+  const input = document.getElementById('excl-input');
+  const w = (word || input.value).trim();
+  if (!w) return;
+  if (!EXCL[w]) {
+    EXCL[w] = 'manual';
+    renderExclTags();
+    refreshHighlights();
+  }
+  if (!word) input.value = '';
+}
+
+function removeExclWord(word) {
+  delete EXCL[word];
+  renderExclTags();
+  refreshHighlights();
+}
+
+// 除外語変更後: テキスト表示・ハイライトを即時更新
+function refreshHighlights() {
+  // 全spanのword-excludedをリセット
+  const el = document.getElementById('text-display');
+  if (!el) return;
+  const exclSet = getExclSet();
+  // まず全スパンの除外スタイルをリセット
+  el.querySelectorAll('.word-token').forEach(span => {
+    span.classList.remove('word-excluded');
+  });
+  // 最終認識結果があれば再ハイライト（wrong + excluded を両方更新）
+  if (S.lastRecognized) {
+    highlightMistakes(S.extractedText, S.lastRecognized);
+  } else {
+    // 認識前でも除外語の色は適用
+    applyExclStyles();
+  }
+}
+
+// 除外語のグレー表示だけ適用（録音前・採点前の初期状態用）
+function applyExclStyles() {
+  const el = document.getElementById('text-display');
+  if (!el) return;
+  const exclSet = getExclSet();
+  el.querySelectorAll('.word-token').forEach(span => {
+    span.classList.remove('word-excluded', 'word-wrong');
+    const wi = parseInt(span.dataset.wi);
+    // tokenizeText と同じ順序で各spanの語を特定
+    const raw = span.textContent;
+    const norm = expandSpeechConversions(raw)
+      .replace(/[''`’‘]/g,'')
+      .replace(/[^\w\s]/g,' ')
+      .replace(/\s+/g,' ')
+      .trim()
+      .toLowerCase();
+    if (norm && exclSet.has(norm)) span.classList.add('word-excluded');
+  });
+}
+
+// 固有名詞の自動検出（文中の大文字始まり語）
+// 頻出英単語（これらは文中で大文字になっても固有名詞扱いしない）
+const COMMON_WORDS = new Set([
+  // 曜日・月
+  'monday','tuesday','wednesday','thursday','friday','saturday','sunday',
+  'january','february','march','april','may','june','july','august',
+  'september','october','november','december',
+  // 国語・言語・国籍（大文字になりやすい）
+  'english','japanese','chinese','korean','french','german','spanish',
+  'italian','american','british','australian','canadian','european','asian',
+  'african','indian','latin','arabic','russian','greek','roman',
+  // 肩書き・役職（文中で大文字になりやすい）
+  'mr','mrs','ms','dr','prof','sir','lady','lord','captain','president',
+  'minister','director','manager','officer',
+  // その他：文中で大文字になりやすい普通の英単語
+  'i','ok','yes','no','hi','hey','oh','ah','well','now','just','then',
+  'also','even','still','yet','already','often','always','never',
+  // 命令文・掛け声（Sit, Stay, Down 等）
+  'sit','stay','down','up','stand','come','go','stop','wait','look',
+  'run','walk','jump','fetch','heel','roll','shake','turn','back',
+  'left','right','forward',
+  // 色・形容詞で大文字になりがちなもの
+  'police','fire','school','church','university','college','hospital',
+  'east','west','south','north','central','national','international',
+  'federal','local','public','private','general','special','main',
+  'new','old','great','big','small','high','low','long','short',
+  'god','lord','heaven','nature','earth','world','life','time','day',
+  'way','thing','people','man','woman','boy','girl','year','age',
+]);
+
+function detectProperNouns(text) {
+  // 文頭位置を特定（テキスト先頭、または . ! ? の後のスペース）
+  const sentenceStarts = new Set([0]);
+  const endRe = /[.!?]+[\s\u3000]+/g;
+  let m;
+  while ((m = endRe.exec(text)) !== null) {
+    sentenceStarts.add(m.index + m[0].length);
+  }
+  // 大文字始まりの語で文頭でないものを抽出
+  const wordRe = /\b([A-Z][a-zA-Z]{1,})\b/g;
+  const found = new Set();
+  while ((m = wordRe.exec(text)) !== null) {
+    if (sentenceStarts.has(m.index)) continue;        // 文頭は除外
+    if (m[1] === m[1].toUpperCase()) continue;        // 全大文字（略語）は除外
+    if (COMMON_WORDS.has(m[1].toLowerCase())) continue; // 頻出英単語は除外
+    found.add(m[1]);
+  }
+  return [...found].sort();
+}
+
+// 除外リスト初期化（startReadingから呼ぶ）
+function initExclusion(text) {
+  // 既存をクリア
+  Object.keys(EXCL).forEach(k => delete EXCL[k]);
+  S.lastRecognized = '';
+  // 自動検出で埋める
+  const nouns = detectProperNouns(text);
+  nouns.forEach(w => { EXCL[w] = 'auto'; });
+  renderExclTags();
+  // テキスト表示に除外語スタイルを即時適用
+  // (spanが描画された後に実行する必要があるため requestAnimationFrame で)
+  requestAnimationFrame(() => applyExclStyles());
+}
+
+// Enterキーでも追加
+document.addEventListener('DOMContentLoaded', () => {
+  const inp = document.getElementById('excl-input');
+  if (inp) inp.addEventListener('keydown', e => { if(e.key==='Enter') addExclWord(); });
+});
+
+
+// ── SPEECH RECOGNITION NORMALIZATION ───────────────────────
+// 音声認識エンジンが自動変換する表記（km, 7:30, 5 等）を
+// 元テキストと認識結果の両方に適用して表記を揃える
+
+function numToWords(n) {
+  if (isNaN(n) || n < 0) return String(n);
+  const ones = ['zero','one','two','three','four','five','six','seven','eight','nine',
+                 'ten','eleven','twelve','thirteen','fourteen','fifteen','sixteen',
+                 'seventeen','eighteen','nineteen'];
+  const tens = ['','','twenty','thirty','forty','fifty','sixty','seventy','eighty','ninety'];
+  if (n < 20)   return ones[n];
+  if (n < 100)  return tens[Math.floor(n/10)] + (n%10 ? ' ' + ones[n%10] : '');
+  if (n < 1000) return ones[Math.floor(n/100)] + ' hundred' +
+                       (n%100 ? ' ' + numToWords(n%100) : '');
+  if (n < 10000) return numToWords(Math.floor(n/1000)) + ' thousand' +
+                        (n%1000 ? ' ' + numToWords(n%1000) : '');
+  return String(n);
+}
+
+function expandSpeechConversions(text) {
+  let t = text.toLowerCase();
+
+  // ① 通貨パターン（時刻・数字変換より先に処理）
+  // $0.XX → "XX cents"
+  t = t.replace(/\$0\.(\d{2})\b/g, (_, c) => {
+    const cents = parseInt(c);
+    return numToWords(cents) + (cents === 1 ? ' cent' : ' cents');
+  });
+  // $X.00 → "X dollar(s)"
+  t = t.replace(/\$(\d+)\.00\b/g, (_, d) => {
+    const n = parseInt(d);
+    return numToWords(n) + (n === 1 ? ' dollar' : ' dollars');
+  });
+  // $X.XX → "X dollar(s) and XX cents"
+  t = t.replace(/\$(\d+)\.(\d{2})\b/g, (_, d, c) => {
+    const dn = parseInt(d), cn = parseInt(c);
+    return numToWords(dn) + (dn === 1 ? ' dollar' : ' dollars') + ' and ' +
+           numToWords(cn) + (cn === 1 ? ' cent' : ' cents');
+  });
+  // $X（整数）→ "X dollar(s)"
+  t = t.replace(/\$(\d+)\b/g, (_, d) => {
+    const n = parseInt(d);
+    return numToWords(n) + (n === 1 ? ' dollar' : ' dollars');
+  });
+  // ¥X → "X yen"
+  t = t.replace(/¥(\d+)\b/g, (_, n) => numToWords(parseInt(n)) + ' yen');
+  // €X.XX / €X
+  t = t.replace(/€(\d+)\.(\d{2})\b/g, (_, d, c) => {
+    const dn = parseInt(d), cn = parseInt(c);
+    return numToWords(dn) + (dn === 1 ? ' euro' : ' euros') + ' and ' +
+           numToWords(cn) + (cn === 1 ? ' cent' : ' cents');
+  });
+  t = t.replace(/€(\d+)\b/g, (_, n) => {
+    const num = parseInt(n);
+    return numToWords(num) + (num === 1 ? ' euro' : ' euros');
+  });
+  // £X.XX / £X
+  t = t.replace(/£(\d+)\.(\d{2})\b/g, (_, d, c) => {
+    const dn = parseInt(d), cn = parseInt(c);
+    return numToWords(dn) + (dn === 1 ? ' pound' : ' pounds') + ' and ' +
+           numToWords(cn) + (cn === 1 ? ' penny' : ' pence');
+  });
+  t = t.replace(/£(\d+)\b/g, (_, n) => {
+    const num = parseInt(n);
+    return numToWords(num) + (num === 1 ? ' pound' : ' pounds');
+  });
+
+  // ② 時刻パターン: 7:30 → seven thirty, 10:00 → ten oclock
+  t = t.replace(/\b(\d{1,2}):(\d{2})\b/g, (_, h, m) => {
+    const hW = numToWords(parseInt(h));
+    const mN = parseInt(m);
+    if (mN === 0)  return hW + ' oclock';
+    if (mN < 10)   return hW + ' oh ' + numToWords(mN);
+    return hW + ' ' + numToWords(mN);
+  });
+
+  // ③ 数字+単位（붙어있ても空白があっても対応）
+  const unitMap = [
+    [/\b(\d+)\s*km\b/g,  'kilometers'],
+    [/\b(\d+)\s*cm\b/g,  'centimeters'],
+    [/\b(\d+)\s*mm\b/g,  'millimeters'],
+    [/\b(\d+)\s*kg\b/g,  'kilograms'],
+    [/\b(\d+)\s*mg\b/g,  'milligrams'],
+    [/\b(\d+)\s*km\/h\b/g, 'kilometers per hour'],
+    [/\b(\d+)\s*m\/s\b/g,  'meters per second'],
+    [/\b(\d+)\s*m\b/g,   'meters'],   // ← km/cm の後に評価
+    [/\b(\d+)\s*g\b/g,   'grams'],
+    [/\b(\d+)\s*l\b/g,   'liters'],
+    [/\b(\d+)\s*ml\b/g,  'milliliters'],
+    [/\b(\d+)\s*%/g,     'percent'],
+  ];
+  unitMap.forEach(([re, unit]) => {
+    t = t.replace(re, (_, n) => numToWords(parseInt(n)) + ' ' + unit);
+  });
+
+  // ④ 単独の単位略語（数字なし）
+  const abbrevMap = {
+    'km': 'kilometers', 'cm': 'centimeters', 'mm': 'millimeters',
+    'kg': 'kilograms',  'mg': 'milligrams',  'ml': 'milliliters',
+  };
+  Object.entries(abbrevMap).forEach(([abbr, full]) => {
+    t = t.replace(new RegExp('\\b' + abbr + '\\b', 'g'), full);
+  });
+
+  // ⑤ 残った孤立した数字 → 英単語（3桁以下のみ安全に変換）
+  t = t.replace(/\b(\d{1,4})\b/g, (_, n) => {
+    const num = parseInt(n);
+    return num <= 9999 ? numToWords(num) : n;
+  });
+
+  return t;
+}
+
+
+// ── SCORING ────────────────────────────────────────────────
+function calculateScore(original, recognized){
+  if(!recognized||!recognized.trim()) return 0;
+  const normWords = t => expandSpeechConversions(t)
+    .replace(/['\u2018\u2019`]/g,'')
+    .replace(/[^\w\s]/g,' ')
+    .replace(/\s+/g,' ')
+    .trim().split(' ').filter(w=>w.length>0);
+  const exclSet = getExclSet();
+  const origAll  = normWords(original);
+  const recogAll = normWords(recognized);
+  const { dp, nonExclCount } = wildcardDP(origAll, recogAll, exclSet);
+  const m=origAll.length, n=recogAll.length;
+  if(!nonExclCount) return 0;
+  const score = Math.max(0,Math.min(100,Math.round((1-dp[m][n]/nonExclCount)*100)));
+
+  // ── デバッグログ ──────────────────────────────────────
+  if(document.getElementById('debug-toggle')?.checked){
+    const nonExclOrig  = origAll.filter(w=>!exclSet.has(w));
+    const nonExclRecog = recogAll.filter(w=>!exclSet.has(w));
+    // ワイルドカードDP上でのトレースバック
+    const mismatches = [];
+    let i=origAll.length, j=recogAll.length;
+    while(i>0||j>0){
+      const isExcl = i>0 && exclSet.has(origAll[i-1]);
+      if(i>0 && j>0 && (origAll[i-1]===recogAll[j-1] || isExcl)){
+        i--;j--; // match or wildcard absorb
+      } else if(i>0 && isExcl && dp[i][j]===dp[i-1][j]){
+        i--; // wildcard skip
+      } else if(i>0 && j>0 && !isExcl && dp[i][j]===dp[i-1][j-1]+1){
+        mismatches.push({type:'sub',orig:origAll[i-1],recog:recogAll[j-1]});
+        i--;j--;
+      } else if(i>0 && !isExcl && dp[i][j]===dp[i-1][j]+1){
+        mismatches.push({type:'del',orig:origAll[i-1]});
+        i--;
+      } else if(j>0){
+        mismatches.push({type:'ins',recog:recogAll[j-1]});
+        j--;
+      } else { i--; }
+    }
+    mismatches.reverse();
+    const lines=[];
+    lines.push(`スコア: ${score}点  編集距離: ${dp[m][n]}  元単語数(除外後): ${nonExclCount}  認識単語数: ${recogAll.length}`);
+    lines.push('');
+    lines.push('【除外語セット】');
+    lines.push([...exclSet].join(', ')||'（なし）');
+    lines.push('');
+    lines.push('【元テキスト 正規化後（除外語含む）】');
+    lines.push(origAll.join(' '));
+    lines.push('');
+    lines.push('【認識結果  正規化後】');
+    lines.push(recogAll.join(' '));
+    lines.push('');
+    lines.push('【不一致リスト（非除外語のみ）】');
+    if(!mismatches.length){ lines.push('（すべて一致）'); }
+    else mismatches.forEach(mm=>{
+      if(mm.type==='sub')  lines.push(`  置換 元:「${mm.orig}」→ 認識:「${mm.recog}」`);
+      else if(mm.type==='del') lines.push(`  削除 元:「${mm.orig}」が認識されなかった`);
+      else                 lines.push(`  挿入 認識:「${mm.recog}」が元テキストにない`);
+    });
+    document.getElementById('debug-log').textContent=lines.join('\n');
+    document.getElementById('debug-panel').classList.remove('hidden');
+  }
+
+  return score;
+}
+
+function showScore(score){
+  const panel=document.getElementById('score-panel');
+  const circle=document.getElementById('score-circle');
+  const numEl=document.getElementById('score-num');
+  const fb=document.getElementById('score-feedback');
+  panel.classList.remove('hidden');
+  numEl.textContent=score; circle.className='score-circle'; numEl.className='score-num';
+  if(score>=80){ circle.classList.add('score-high'); numEl.classList.add('score-high'); fb.textContent='素晴らしい！正確に読めています 🎉'; }
+  else if(score>=60){ circle.classList.add('score-mid'); numEl.classList.add('score-mid'); fb.textContent='よくできました！もう一度挑戦してみましょう 👍'; }
+  else { circle.classList.add('score-low'); numEl.classList.add('score-low'); fb.textContent='ゆっくりはっきり読むと精度が上がります。もう一度！ 💪'; }
+}
+
+function updateStats(){
+  const n=S.readings.length; if(!n) return;
+  const avgDur=Math.round(S.readings.reduce((a,r)=>a+r.duration,0)/n);
+  const best=Math.max(...S.readings.map(r=>r.score));
+  const m=Math.floor(avgDur/60), s=avgDur%60;
+  document.getElementById('stat-count').textContent=n;
+  document.getElementById('stat-avg').textContent=`${m}:${String(s).padStart(2,'0')}`;
+  document.getElementById('stat-best').textContent=`${best}点`;
+}
+
+function updateHistory(){
+  document.getElementById('history-card').classList.remove('hidden');
+  const tbody=document.getElementById('history-body');
+  tbody.innerHTML='';
+  [...S.readings].reverse().forEach(r=>{
+    const m=Math.floor(r.duration/60), s=r.duration%60;
+    const time=new Date(r.timestamp).toLocaleTimeString('ja-JP',{hour:'2-digit',minute:'2-digit',second:'2-digit'});
+    const cls=r.score>=80?'high':r.score>=60?'mid':'low';
+    const tr=document.createElement('tr');
+    tr.innerHTML=`<td><span class="attempt-badge">${r.attempt}</span></td><td style="font-size:13px;color:var(--text2);font-family:'Noto Sans JP',sans-serif;">${time}</td><td style="font-variant-numeric:tabular-nums;">${m}:${String(s).padStart(2,'0')}</td><td><span class="score-badge ${cls}">${r.score}点</span></td>`;
+    tbody.appendChild(tr);
+  });
+}
+
+function updateAttemptUI(){ document.getElementById('attempt-num').textContent=S.currentAttempt||1; }
+
+// ── CSV EXPORT ─────────────────────────────────────────────
+function exportCSV(){
+  if(!S.readings.length) return;
+  const n=S.readings.length;
+  const avgDur=Math.round(S.readings.reduce((a,r)=>a+r.duration,0)/n);
+  const best=Math.max(...S.readings.map(r=>r.score));
+  const stamp=new Date().toLocaleString('ja-JP');
+  const avgM=Math.floor(avgDur/60), avgS=avgDur%60;
+  const avgTime=`${avgM}:${String(avgS).padStart(2,'0')}`;
+  const summaryHeader='提出タイムスタンプ,音読回数,音読平均タイム,最高得点\n';
+  const summaryRow=`"${stamp}",${n},"${avgTime}",${best}\n`;
+  const detailHeader='\n音読詳細,,,,\n回数,タイムスタンプ,タイム（秒）,タイム（分:秒）,スコア\n';
+  const detailRows=S.readings.map(r=>{
+    const dm=Math.floor(r.duration/60), ds=r.duration%60;
+    return `${r.attempt},"${new Date(r.timestamp).toLocaleString('ja-JP')}",${r.duration},"${dm}:${String(ds).padStart(2,'0')}",${r.score}`;
+  }).join('\n');
+  const blob=new Blob(['\uFEFF'+summaryHeader+summaryRow+detailHeader+detailRows],{type:'text/csv;charset=utf-8;'});
+  const url=URL.createObjectURL(blob);
+  const fileName=`${S.sourceFileName}${S.studentNumber}.csv`;
+  const a=document.createElement('a'); a.href=url; a.download=fileName;
+  document.body.appendChild(a); a.click(); document.body.removeChild(a); URL.revokeObjectURL(url);
+  showToast(`${fileName} をダウンロードしました`);
+}
+
+function updateExportHint(){
+  document.getElementById('export-filename-hint').textContent=`ファイル名: ${S.sourceFileName}${S.studentNumber}.csv`;
+}
+
+// ── RESET ──────────────────────────────────────────────────
+function confirmReset(){
+  if(S.readings.length>0){
+    const ok=confirm('音読データがリセットされます。最初からやり直しますか？\n（CSVをまだダウンロードしていない場合はキャンセルしてください）');
+    if(!ok) return;
+  }
+  resetApp();
+}
+
+function resetApp(){
+  if(S.isRecording){ S.isRecording=false; clearInterval(S.timerInterval); try{S.recognition&&S.recognition.stop();}catch(e){} }
+  S.readings=[]; S.currentAttempt=0; S.accumulatedFinal=''; S.startTime=null; S.micPermitted=false; S.waitingForFinal=false; S.elapsedOnStop=0; S.lastRecognized=''; S.lastInterim='';
+  document.getElementById('timer-display').textContent='0:00';
+  document.getElementById('attempt-num').textContent='1';
+  document.getElementById('stat-count').textContent='0';
+  document.getElementById('stat-avg').textContent='--';
+  document.getElementById('stat-best').textContent='--';
+  document.getElementById('history-body').innerHTML='';
+  document.getElementById('history-card').classList.add('hidden');
+  document.getElementById('score-panel').classList.add('hidden');
+  document.getElementById('export-btn').disabled=true;
+  renderTranscript('','');
+  // Reset step 1
+  const permitBtn=document.getElementById('permit-btn');
+  permitBtn.disabled=false; permitBtn.classList.remove('done');
+  document.getElementById('permit-icon').textContent='🎙';
+  document.getElementById('permit-label').textContent='マイク使用許可';
+  document.getElementById('step1-num').classList.remove('done');
+  document.getElementById('step1-num').textContent='1';
+  // Reset step 2
+  document.getElementById('step2-row').style.opacity='0.4';
+  const recBtn=document.getElementById('record-btn');
+  recBtn.disabled=true; recBtn.classList.remove('recording');
+  document.getElementById('record-icon').textContent='🎤';
+  document.getElementById('record-label').textContent='録音開始';
+  document.getElementById('status-dot').className='status-dot idle';
+  document.getElementById('status-text').textContent='まずマイクの使用を許可してください';
+  showToast('リセットしました');
+}
+
+// ── UI HELPERS ─────────────────────────────────────────────
+function showLoading(msg){ document.getElementById('loading-text').textContent=msg; document.getElementById('loading-overlay').classList.remove('hidden'); }
+function hideLoading(){ document.getElementById('loading-overlay').classList.add('hidden'); }
+
+let toastTimer=null;
+function showToast(msg){
+  const el=document.getElementById('toast'); el.textContent=msg; el.classList.add('show');
+  clearTimeout(toastTimer); toastTimer=setTimeout(()=>el.classList.remove('show'),2800);
+}
+</script>
+</body>
+</html>
